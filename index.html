@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Transparent pixel</title>
+</head>
+<p>Add a transparent pixel to the top left of your image</p>
+<p><input type="file" id="imageLoader"/></p>
+<p><a id="download" style="display: none;">Download</a></p>
+<p><canvas id="imageCanvas"></canvas></p>
+
+<script>
+var imageLoader = document.getElementById('imageLoader');
+var canvas = document.getElementById('imageCanvas');
+var ctx = canvas.getContext('2d');
+var dl = document.getElementById("download");
+
+imageLoader.addEventListener('change', function(e) {
+  var px = ctx.createImageData(1, 1);
+  px.data[3] = 0; // alpha
+
+  var reader = new FileReader();
+  reader.onload = function(event) {
+    var img = new Image();
+    img.onload = function() {
+      canvas.width = img.width;
+      canvas.height = img.height;
+      ctx.drawImage(img, 0, 0);
+      ctx.putImageData(px, 0, 0);
+
+      dl.href = canvas.toDataURL();
+      dl.download = 'download.png';
+      dl.style.display = 'initial';
+    }
+    img.src = event.target.result;
+  }
+  reader.readAsDataURL(e.target.files[0]);
+}, false);
+</script>
+
+</body>
+</html>
+
