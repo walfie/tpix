@@ -13,7 +13,7 @@
 var imageLoader = document.getElementById('imageLoader');
 var canvas = document.getElementById('imageCanvas');
 var ctx = canvas.getContext('2d');
-var dl = document.getElementById("download");
+var download = document.getElementById("download");
 
 imageLoader.addEventListener('change', function(e) {
   var px = ctx.createImageData(1, 1);
@@ -28,9 +28,9 @@ imageLoader.addEventListener('change', function(e) {
       ctx.drawImage(img, 0, 0);
       ctx.putImageData(px, 0, 0);
 
-      dl.href = canvas.toDataURL();
-      dl.download = 'download.png';
-      dl.style.display = 'initial';
+      download.href = canvas.toDataURL();
+      download.download = 'download.png';
+      download.style.display = 'initial';
     }
     img.src = event.target.result;
   }
