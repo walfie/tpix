@@ -5,17 +5,21 @@
 <title>Transparent pixel</title>
 </head>
 <p>Add a transparent pixel to the top left of your image</p>
-<p><input type="file" id="imageLoader"/></p>
+<p><input type="file" id="imgLoader"/></p>
 <p><a id="download" style="display: none;">Download</a></p>
-<p><canvas id="imageCanvas"></canvas></p>
+<p><canvas id="imgCanvas"></canvas></p>
 
 <script>
-var imageLoader = document.getElementById('imageLoader');
-var canvas = document.getElementById('imageCanvas');
+var d = document;
+var imgLoader = d.getElementById('imgLoader');
+var canvas = d.getElementById('imgCanvas');
 var ctx = canvas.getContext('2d');
-var download = document.getElementById("download");
+var download = d.getElementById('download');
 
-imageLoader.addEventListener('change', function(e) {
+imgLoader.addEventListener('change', function(e) {
+  var name = imgLoader.files[0].name;
+  var nameNoExtension = name.substr(0, name.lastIndexOf('.')) || name;
+  var newName = nameNoExtension + '_transparent.png';
   var px = ctx.createImageData(1, 1);
   px.data[3] = 0; // alpha
 
@@ -29,7 +33,8 @@ imageLoader.addEventListener('change', function(e) {
       ctx.putImageData(px, 0, 0);
 
       download.href = canvas.toDataURL();
-      download.download = 'download.png';
+      download.download = newName;
+      download.click();
       download.style.display = 'initial';
     }
     img.src = event.target.result;
@@ -39,13 +44,12 @@ imageLoader.addEventListener('change', function(e) {
 </script>
 
 <script>
-var sc_project=10824005, sc_invisible=1, sc_security="e84c738e";
+var sc_project=10824005, sc_invisible=1, sc_security='e84c738e';
 (function() {
   var sc = document.createElement('script');
   sc.async = true;
-  sc.src = 'http://statcounter.com/counter/counter.js';
-  var s = document.querySelector('script');
-  s.parentNode.insertBefore(sc, s);
+  sc.src = 'https://secure.statcounter.com/counter/counter.js';
+  document.body.appendChild(sc);
 }());
 </script>
 <noscript><img src="http://c.statcounter.com/10582511/0/a719baa7/1/" style="display:none;"></noscript>
